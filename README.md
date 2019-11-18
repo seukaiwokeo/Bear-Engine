@@ -1,5 +1,5 @@
 # Bear-Engine
-An engine to control windows proccesses via Lua Script
+A lua compiler to control windows processes based on C++ 11 win32
 
 Developed under x86 Windows based machine.
 
