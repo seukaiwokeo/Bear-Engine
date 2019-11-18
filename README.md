@@ -72,7 +72,7 @@ engine:resumeThread(0xA1)
 - getProcess(string) -- Return process Handle by name.
 ```lua
 local otherProcess = engine:getProcess("something.exe")
-print(string_format("The process is: 0x%08X\n", otherProcess))
+print(string.format("The process is: 0x%08X\n", otherProcess))
 ```
 
 - getModule(string) -- Return module handle by name.
@@ -110,5 +110,5 @@ engine:writeString(0x‭45C61B‬, "hello world")
 - readString(unsigned integer, unsigned integer) -- Read the given address from memory by the size of the given length as a string.
 ```lua
 local mystring = engine:readString(0x‭45C61B, 10‬)
-print(string_format("%s", mystring))
+print(string.format("%s", mystring))
 ```
