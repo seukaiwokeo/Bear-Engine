@@ -9,11 +9,11 @@ This project based on C++ 11
 ```lua
 -- Create a bear object
 -- process must be define when loading
-local engine = Bear.init("something.exe");
+local engine = Bear.init("something.exe")
 -- Finding assembly code in the memory
-data = engine:findPattern("dinput8.dll", "\x4F\x53");
+data = engine:findPattern("dinput8.dll", "\x4F\x53")
 -- Print the address of that assembly in console screen
-print(string.format("Address: 0x%08X", data));
+print(string.format("Address: 0x%08X", data))
 ```
 
 **Global Bear Functions**
@@ -56,7 +56,7 @@ engine:loadLib("folder\\lib.dll")
 
 - getThreads() -- Get a list the threads of handled process.
 ```lua
-data = engine:getThreads();
+data = engine:getThreads()
 for index,value in ipairs(data) do
    print(string.format("Index: %d\tThread ID: 0x%08X", index, value))
 end
@@ -93,7 +93,7 @@ local hModule = engine:getModule("dinput8.dll")
 -- find the code block for example
 --   0x‭45C61A‬      DEC     DI
 --   0x‭45C61B      PUSH    BX
-data = engine:findPattern("something.exe", "\x4F\x53");
+data = engine:findPattern("something.exe", "\x4F\x53")
 -- data == 0x‭45C61A
 ```
 
