@@ -54,6 +54,15 @@ engine:load("scripts\\other.lua")
 engine:loadLib("folder\\lib.dll")
 ```
 
+- getThreads() -- Get a list the threads of handled process.
+```lua
+local engine = Bear.init("chrome.exe");
+data = engine:getThreads();
+for index,value in ipairs(data) do
+	print(string.format("Index: %d\tThread ID: 0x%08X", index, value))
+end
+```
+
 - killThread(unsigned integer) -- Kill the thread that given ID
 ```lua
 engine:killThread(0xA4)
@@ -111,13 +120,4 @@ engine:writeString(0x‭45C61B‬, "hello world")
 ```lua
 local mystring = engine:readString(0x‭45C61B, 10‬)
 print(string.format("%s", mystring))
-```
-
-- getThreads() -- Get a list the threads of handled process.
-```lua
-local engine = Bear.init("chrome.exe");
-data = engine:getThreads();
-for index,value in ipairs(data) do
-	print(string.format("Index: %d\tThread ID: 0x%08X", index, value))
-end
 ```
