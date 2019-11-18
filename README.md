@@ -2,13 +2,14 @@
 An engine to control windows proccesses via Lua Script
 
 Developed under x86 Windows based machine.
+
 This project based on C++ 11
 
 **Simple Example**
 
 ```lua
 -- Create a bear object
--- process must be define when loading
+-- Process must be defined when initializing
 local engine = Bear.init("something.exe")
 -- Finding assembly code in the memory
 data = engine:findPattern("dinput8.dll", "\x4F\x53")
