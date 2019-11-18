@@ -107,8 +107,8 @@ val = engine:readMemory(0x‭45C61B‬, 2)
 engine:writeString(0x‭45C61B‬, "hello world")
 ```
 
-- readString(unsigned integer) -- Read the given address from memory by the size of the given string s length as a string.
+- readString(unsigned integer, unsigned integer) -- Read the given address from memory by the size of the given length as a string.
 ```lua
-local mystring = engine:readString(0x‭45C61B‬)
+local mystring = engine:readString(0x‭45C61B, 10‬)
 print(string_format("%s", mystring))
 ```
