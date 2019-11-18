@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BearEngine", "BearEngine.vcxproj", "{E3FB93A6-789F-4193-9B01-AF6B4CCAB3C3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BearEngine", "BearEngine\BearEngine.vcxproj", "{E3FB93A6-789F-4193-9B01-AF6B4CCAB3C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
