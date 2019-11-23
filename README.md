@@ -120,3 +120,23 @@ engine:writeString(0x‭45C61B‬, "hello world")
 local mystring = engine:readString(0x‭45C61B, 10‬)
 print(string.format("%s", mystring))
 ```
+
+- asmPatch(string, unsigned char array, unsigned char array) -- Change the asm codes the given code block.
+```lua
+--   0x‭45C61A‬      DEC     DI
+--   0x‭45C61B      PUSH    BX
+--   TO
+--   0x‭45C61A‬      NOP
+--   0x‭45C61B      NOP
+engine:asmPatch("Engine.dll", "\x4F\x53", "\x90\x90") -- 4F 53 -> 90 90
+```
+
+- asmPatchEx(string, unsigned integer, unsigned char array) -- Change the asm codes the given address.
+```lua
+--   0x‭45C61A‬      DEC     DI
+--   0x‭45C61B      PUSH    BX
+--   TO
+--   0x‭45C61A‬      NOP
+--   0x‭45C61B      NOP
+engine:asmPatch("Engine.dll", 0x‭45C61A‬, "\x90\x90") -- 45C61A -> 90 90
+```

@@ -9,8 +9,9 @@ Bear* l_CheckBear(lua_State* l, int n)
 int l_Bear_constructor(lua_State* l)
 {
 	const char* name = luaL_checkstring(l, 1);
+	int it = luaL_checkunsigned(l, 2);
 	Bear** udata = (Bear**)lua_newuserdata(l, sizeof(Bear*));
-	*udata = new Bear(name);
+	*udata = new Bear(name, it);
 	luaL_getmetatable(l, "luaL_Bear");
 	lua_setmetatable(l, -2);
 	return 1;
@@ -37,7 +38,8 @@ int l_Bear_getProcess(lua_State* l)
 {
 	Bear* bear = l_CheckBear(l, 1);
 	std::string arg1 = luaL_checkstring(l, 2);
-	HANDLE proc = bear->GetProcessByName(arg1.c_str());
+	unsigned int arg2 = luaL_checkunsigned(l, 3);
+	HANDLE proc = bear->GetProcessByName(arg1.c_str(), arg2);
 	lua_pushinteger(l, (int)proc);
 	return 1;
 }
@@ -56,6 +58,37 @@ int l_Bear_findPattern(lua_State* l)
 	}
 	DWORD address = bear->FindPatternEx(mdl, (char*)pattern, (char*)mask);
 	lua_pushunsigned(l, address);
+	return 1;
+}
+
+int l_Bear_asmPatch(lua_State* l)
+{
+	Bear* bear = l_CheckBear(l, 1);
+	std::string mdlArg = luaL_checkstring(l, 2);
+	char* mdl = (char*)mdlArg.c_str();
+	unsigned char* pattern = (unsigned char*)luaL_checklstring(l, 3, NULL);
+	unsigned char* replace = (unsigned char*)luaL_checklstring(l, 4, NULL);
+	unsigned char* mask = new unsigned char[strlen((const char*)pattern)];
+	for (int i = 0; i < strlen((const char*)pattern); i++)
+	{
+		if (pattern[i] == 0x0 || pattern[i] == '0') mask[i] = '?';
+		else mask[i] = 'x';
+	}
+	DWORD address = bear->FindPatternEx(mdl, (char*)pattern, (char*)mask);
+	WriteProcessMemory(bear->hProcess, (LPVOID)address, replace, strlen((const char*)replace), 0);
+	lua_pushboolean(l, true);
+	return 1;
+}
+
+int l_Bear_asmPatchEx(lua_State* l)
+{
+	Bear* bear = l_CheckBear(l, 1);
+	std::string mdlArg = luaL_checkstring(l, 2);
+	char* mdl = (char*)mdlArg.c_str();
+	DWORD address = luaL_checkunsigned(l, 3);
+	unsigned char* pattern = (unsigned char*)luaL_checklstring(l, 4, NULL);
+	WriteProcessMemory(bear->hProcess, (LPVOID)address, pattern, strlen((const char*)pattern), 0);
+	lua_pushboolean(l, true);
 	return 1;
 }
 
@@ -241,6 +274,8 @@ void RegisterBear(lua_State* l)
 		{ "getProcess", l_Bear_getProcess },
 		{ "getModule", l_Bear_getModule },
 		{ "findPattern", l_Bear_findPattern },
+		{ "asmPatch", l_Bear_asmPatch },
+		{ "asmPatchEx", l_Bear_asmPatchEx },
 		{ "writeMemory", l_Bear_writeMemory },
 		{ "readMemory", l_Bear_readMemory },
 		{ "writeString", l_Bear_writeString },

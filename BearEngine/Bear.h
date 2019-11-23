@@ -4,9 +4,10 @@ class Bear
 {
 public:
 	HANDLE hProcess;
-	Bear(std::string proc)
+	Bear(std::string proc, unsigned int it)
 	{
-		hProcess = GetProcessByName(proc.c_str());
+		hProcess = GetProcessByName(proc.c_str(), it -1);
+		printf("Handle: 0x%04X\n");
 	}
 	void kill()
 	{
@@ -20,7 +21,7 @@ public:
 	{
 		return (DWORD)GetModuleHandle(mName.c_str());
 	}
-	HANDLE GetProcessByName(PCSTR name)
+	HANDLE GetProcessByName(PCSTR name, unsigned int it)
 	{
 		DWORD pid = 0;
 		HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -33,8 +34,11 @@ public:
 			{
 				if (string(process.szExeFile) == string(name))
 				{
-					pid = process.th32ProcessID;
-					break;
+					if (it == 0) {
+						pid = process.th32ProcessID;
+						break;
+					}
+					else it--;
 				}
 			} while (Process32Next(snapshot, &process));
 		}
@@ -42,7 +46,8 @@ public:
 
 		if (pid != 0)
 		{
-			return OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+			printf("Connected PID: %d [0x%04X]\n", pid, pid);
+			return OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
 		}
 		return NULL;
 	}
