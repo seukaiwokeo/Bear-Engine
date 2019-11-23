@@ -139,5 +139,5 @@ engine:asmPatch("Engine.dll", "\x4F\x53", "\x90\x90") -- 4F 53 -> 90 90
 --   TO
 --   0x‭45C61A‬      NOP
 --   0x‭45C61B      NOP
-engine:asmPatch("Engine.dll", 0x‭45C61A‬, "\x90\x90") -- 45C61A -> 90 90
+engine:asmPatchEx("Engine.dll", 0x‭45C61A‬, "\x90\x90") -- 45C61A -> 90 90
 ```
